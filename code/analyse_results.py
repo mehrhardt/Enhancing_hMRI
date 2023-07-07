@@ -265,92 +265,92 @@ for f in formats:
     plt.savefig('{}/figure1.{}'.format(folder_out, f))
 
 #%% Figure 2: 2d v 3d data
-import pydicom
-import matplotlib.patches as patches
+# import pydicom
+# import matplotlib.patches as patches
 
-name = 'HV-109'
-folder_data = '../data/{}'.format(name)
+# name = 'HV-109'
+# folder_data = '../data/{}'.format(name)
 
-slice = 84
-fov_sinfo = 256
-fov_data = 240
+# slice = 84
+# fov_sinfo = 256
+# fov_data = 240
     
-slices = range(slice-8, slice+9)
-slices_all = range(1, 125)
+# slices = range(slice-8, slice+9)
+# slices_all = range(1, 125)
 
-image = np.zeros((160,160,len(slices_all)))
-for j, s in enumerate(slices_all):
-    file_sinfo = '{}/002_Stealth_3D_Bravo_/{:04d}.dcm'.format(folder_data, s)
-    sinfo_dcm = pydicom.read_file(file_sinfo)    
-    sinfo_raw = sinfo_dcm.pixel_array.astype('float64')
-    image[:,:,j] = sktransform.resize(sinfo_raw, (160, 160))
+# image = np.zeros((160,160,len(slices_all)))
+# for j, s in enumerate(slices_all):
+#     file_sinfo = '{}/002_Stealth_3D_Bravo_/{:04d}.dcm'.format(folder_data, s)
+#     sinfo_dcm = pydicom.read_file(file_sinfo)    
+#     sinfo_raw = sinfo_dcm.pixel_array.astype('float64')
+#     image[:,:,j] = sktransform.resize(sinfo_raw, (160, 160))
  
-mri = image / image.max() * 3.5
+# mri = image / image.max() * 3.5
    
-plt.close(1)
-plt.figure(1, figsize=(4.8, 3.3))
-plt.clf()
-gs = gridspec.GridSpec(2, 1, wspace=0.05, hspace=0.02, left=0.05, right=1, 
-                       top=0.9, bottom=0) 
+# plt.close(1)
+# plt.figure(1, figsize=(4.8, 3.3))
+# plt.clf()
+# gs = gridspec.GridSpec(2, 1, wspace=0.05, hspace=0.02, left=0.05, right=1, 
+#                        top=0.9, bottom=0) 
 
-aspect = 2/1.5
+# aspect = 2/1.5
 
-iy = image.shape[1] // 2
+# iy = image.shape[1] // 2
 
-fov_full = np.array([240, 240, 248])
-fov = np.array([240, 240, 30])
+# fov_full = np.array([240, 240, 248])
+# fov = np.array([240, 240, 30])
 
-simage = mri.shape
-vsize = fov_full / np.array(mri.shape)
+# simage = mri.shape
+# vsize = fov_full / np.array(mri.shape)
 
-x0, x1 = 0, simage[0] - 1
-y0, y1 = 0, simage[1]
-z0, z1 = 61, 100
+# x0, x1 = 0, simage[0] - 1
+# y0, y1 = 0, simage[1]
+# z0, z1 = 61, 100
 
-zmris = np.sort([(z1-z0) - (s - z0) for s in slices])
-zcmri = [zmris[0]-1, zmris[-1]+1]
+# zmris = np.sort([(z1-z0) - (s - z0) for s in slices])
+# zcmri = [zmris[0]-1, zmris[-1]+1]
 
-ax = plt.subplot(gs[0])
-im = ax.imshow(np.rot90(mri[:, iy, z0:z1], 1), vmin=0, vmax=1, aspect=aspect, 
-               cmap='gray')
-plt.axis('off')
+# ax = plt.subplot(gs[0])
+# im = ax.imshow(np.rot90(mri[:, iy, z0:z1], 1), vmin=0, vmax=1, aspect=aspect, 
+#                cmap='gray')
+# plt.axis('off')
 
-rect = patches.Rectangle((x0, zcmri[0]), x1-x0, zcmri[1]-zcmri[0], linewidth=1, 
-                         edgecolor='r', facecolor='none', label='13C-MRI')
-ax.add_patch(rect)
-rect = patches.Rectangle((x0, zcmri[0]), x1-x0, zcmri[1]-zcmri[0], 
-                         edgecolor='none', facecolor='r', alpha=0.3)
-ax.add_patch(rect)
+# rect = patches.Rectangle((x0, zcmri[0]), x1-x0, zcmri[1]-zcmri[0], linewidth=1, 
+#                          edgecolor='r', facecolor='none', label='13C-MRI')
+# ax.add_patch(rect)
+# rect = patches.Rectangle((x0, zcmri[0]), x1-x0, zcmri[1]-zcmri[0], 
+#                          edgecolor='none', facecolor='r', alpha=0.3)
+# ax.add_patch(rect)
 
-c = len(zmris) // 2
-ax.plot([x0, x1], [zmris[c], zmris[c]], linewidth=1, color='b', label='1H-MRI')
+# c = len(zmris) // 2
+# ax.plot([x0, x1], [zmris[c], zmris[c]], linewidth=1, color='b', label='1H-MRI')
 
-plt.legend(ncol=2, bbox_to_anchor=(1, 1.25), loc='upper right', frameon=False)
+# plt.legend(ncol=2, bbox_to_anchor=(1, 1.25), loc='upper right', frameon=False)
 
-ax.text(-0.025, 0.5, '2D', rotation=90, horizontalalignment='center', 
-        verticalalignment='center', fontsize=12, transform=ax.transAxes)    
+# ax.text(-0.025, 0.5, '2D', rotation=90, horizontalalignment='center', 
+#         verticalalignment='center', fontsize=12, transform=ax.transAxes)    
 
-ax = plt.subplot(gs[1])
-im = ax.imshow(np.rot90(mri[:, iy, z0:z1], 1), vmin=0, vmax=1, aspect=aspect, 
-               cmap='gray')
-plt.axis('off')
+# ax = plt.subplot(gs[1])
+# im = ax.imshow(np.rot90(mri[:, iy, z0:z1], 1), vmin=0, vmax=1, aspect=aspect, 
+#                cmap='gray')
+# plt.axis('off')
 
-rect = patches.Rectangle((x0, zcmri[0]), x1-x0, zcmri[1]-zcmri[0], linewidth=1, 
-                         edgecolor='r', facecolor='none')
-ax.add_patch(rect)
-rect = patches.Rectangle((x0, zcmri[0]), x1-x0, zcmri[1]-zcmri[0], 
-                         edgecolor='none', facecolor='r', alpha=0.3)
-ax.add_patch(rect)
+# rect = patches.Rectangle((x0, zcmri[0]), x1-x0, zcmri[1]-zcmri[0], linewidth=1, 
+#                          edgecolor='r', facecolor='none')
+# ax.add_patch(rect)
+# rect = patches.Rectangle((x0, zcmri[0]), x1-x0, zcmri[1]-zcmri[0], 
+#                          edgecolor='none', facecolor='r', alpha=0.3)
+# ax.add_patch(rect)
 
-for z in zmris:
-    ax.plot([x0, x1], [z, z], linewidth=1, color='b')
+# for z in zmris:
+#     ax.plot([x0, x1], [z, z], linewidth=1, color='b')
 
-ax.text(-0.025, 0.5, '3D', rotation=90, horizontalalignment='center',
-        verticalalignment='center', fontsize=12, transform=ax.transAxes)    
+# ax.text(-0.025, 0.5, '3D', rotation=90, horizontalalignment='center',
+#         verticalalignment='center', fontsize=12, transform=ax.transAxes)    
    
-name_ = 'figure2'
-for f in formats:
-    plt.savefig('{}/{}.{}'.format(folder_out, name_, f))
+# name_ = 'figure2'
+# for f in formats:
+#     plt.savefig('{}/{}.{}'.format(folder_out, name_, f))
 
 
 #%% Figure 3: guide
