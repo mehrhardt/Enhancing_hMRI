@@ -9,7 +9,7 @@ This code reproduces all experiments from the paper "Enhancing the spatial resol
 
 The code has been tested using Python 3.8 and a number of packages. The version numbers of the most important ones to generate our results are:
 * [ODL](https://odlgroup.github.io/odl/) [1.0.0.dev0]
-* [NumPy](https://numpy.org/) [1.20.3]
+* [NumPy](https://numpy.org/) [1.20.3 or 1.22.3]
 
 To execute all code, run
 * [run_all.py](run_all.py)
